@@ -1,0 +1,75 @@
+* body{
+    margin: 0; 
+    padding: 0;
+}
+
+button{
+    cursor: pointer; 
+    width: 60px; 
+    height: 40px;
+    border-radius: 20px; 
+    border: none; 
+    background-color: rgb(106, 252, 8); 
+    transition: .5s; 
+}
+.btn{
+    justify-content: center;
+}
+
+.card_add {
+    width: 50px; 
+    height: 50px; 
+    border-radius: 25px;
+    margin: 10px 0 ; 
+}
+
+
+button:hover{
+    background-color: rgb(165, 255, 106); 
+}
+
+.inp_txt{
+    margin: 5px 0;
+}
+label{
+    text-transform: uppercase; 
+}
+
+i{
+    font-size: 20px;
+}
+
+.header{
+    background-color: pink;
+}
+.col{
+    text-align: center; 
+}
+
+.new_card{
+    background-color: yellow; 
+    align-items: center;  
+}
+
+#description_card, #nameTXT, #phone{
+    width: 300px; 
+    height: 35px; 
+    border-radius: 5px; 
+    border: none; 
+}
+
+.card_body{
+    font-size: 15px;   
+}
+
+.fr{
+    margin: 15px 0 ; 
+}
+
+.hide{
+    display: none;  
+}
+
+.error{
+    outline: 1px solid red;
+}
