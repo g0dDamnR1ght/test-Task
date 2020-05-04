@@ -11,87 +11,32 @@
 <body>
     <div class="container">
    <div class="row flex-column justify-content-between align-item-center">
-        <div class="col header">
+        <div class="col header ">
             <h1>Card List</h1>
         </div>
         <div class="col-4 align-self-center"></div>
         <div class="btn align-self-center ">
            <button type="button" class="show_btn"><i class="fas fa-arrow-circle-down"></i></button>
-           <button class="showPopup">SHOW</button>
         </div>
     </div>
 
+
+  <div class="card-group">
+
+    <div class="card w-75">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <button class="delete_Task"><i class="fas fa-minus-circle"></i></button>
+        <button class="edit_Task"><i class="fas fa-edit"></i></button>
+      </div>
+    </div>
+
+
+  </div>
+
 </div>
 
-<div class="container ">
-      <div class="row task_list d-flex flex-column align-content-center justify-content-center">
-         <div class="col tasks ">
-            <div class="card d-flex justify-content-between">
-                  <div class="card_title">
-                     <h3>description card</h3>
-                  </div>
-                  <div class="card_body">
-                     <p>Irure Lorem esse irure fugiat sint nulla voluptate nostrud.</p>
-                  </div>
-                  <div class="card_footer">
-                     <div class="btn-group">
-                           <button class="delete_Task"><i class="fas fa-minus-circle"></i></button>
-                           <button class="edit_Task"><i class="fas fa-edit"></i></button>
-                     </div>
-                  </div>
-               </div>
-         </div>
-
-         <div class="col tasks ">
-            <div class="card d-flex justify-content-between">
-                  <div class="card_title">
-                     <h3>description card </h3>
-                  </div>
-                  <div class="card_body">
-                     <p>Irure Lorem esse irure fugiat sint nulla voluptate nostrud.</p>
-                  </div>
-
-                     <div class="btn-group ">
-                           <button class="delete_Task"><i class="fas fa-minus-circle"></i></button>
-                           <button  class="edit_Task"><i class="fas fa-edit"></i></button>
-                     </div>
-               </div>
-
-         </div>
-
-
-         <div class="col tasks ">
-            <div class="card d-flex justify-content-between">
-                  <div class="card_title">
-                     <h3>description card </h3>
-                  </div>
-                  <div class="card_body">
-                     <p>Irure Lorem esse irure fugiat sint nulla voluptate nostrud.</p>
-                  </div>
-                     <div class="btn-group ">
-                           <button class="delete_Task"><i class="fas fa-minus-circle"></i></button>
-                           <button class="edit_Task"><i class="fas fa-edit"></i></button>
-                     </div>
-               </div>
-         </div>
-
-         <div class="col tasks ">
-            <div class="card d-flex justify-content-between">
-                  <div class="card_title">
-                     <h3>description card </h3>
-                  </div>
-                  <div class="card_body">
-                     <p>Irure Lorem esse irure fugiat sint nulla voluptate nostrud.</p>
-                  </div>
-
-                     <div class="btn-group ">
-                           <button class="delete_Task"><i class="fas fa-minus-circle"></i></button>
-                           <button class="edit_Task"><i class="fas fa-edit"></i></button>
-                     </div>
-               </div>
-         </div>
-      </div>
-   </div>
 <!-- -------------------------форма заполнения ---------------------------- -->
 <div class="container">
    <div class="row justify-content-center">
@@ -99,11 +44,10 @@
                         <div class="card_title">
                                  <h2>Create NEW Card</h2>
                            </div>
-                           <form class="form" onsubmit="event.preventDefault();">
+                           <form onsubmit="event.preventDefault();">
                               <div class="form-group d-flex flex-column fr">
                                  <label for="description_card">description of your card</label>
                                  <input type="text" class="d-flex justify-content-center align-self-center inp_description"  id="description_card" placeholder=" About your card...">
-                                 <small  class="form-text text-muted">You will write here something </small>
                               </div>
 
                               <div class="form-group d-flex flex-column fr">
