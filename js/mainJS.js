@@ -5,8 +5,6 @@ const addCard =  document.querySelector('.card_add');
 const cardGroup = document.querySelector('.card-group'); 
 
 
-console.log(descriptionInp)
-console.log(taskInput)
 let cardList = [
   {
     description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.`,
@@ -30,8 +28,20 @@ let cardList = [
 
 
 
+
 addCard.addEventListener('click', submitForm); 
 
+function submitForm(e) {
+
+  if(!descriptionInp.value || !taskInput.value){
+    return false
+  } else {
+    e.preventDefault(); 
+    createCard(descriptionInp.value, taskInput.value); 
+    descriptionInp.value = ""; 
+    taskInput.value = ""; 
+  }
+}
 
 function createCard (description, task) {
   let card = {
@@ -44,39 +54,61 @@ function createCard (description, task) {
   cardList.push(card); 
   console.log(cardList)
 
-  cardGroup.insertAdjacentHTML('beforeend', getTamplate(card))
+  let div = document.createElement('div'); 
+  div.setAttribute('class', 'card w-75'); 
+  div.innerHTML = getTamplate(card); 
+  cardGroup.appendChild(div)
+  getButton(div)
 }
 
-function renderCard() {
- cardList.map( c => cardGroup.insertAdjacentHTML('beforeend', getTamplate(c)))
+function renderCards() {
+ cardList.map( c => {
+  let div = document.createElement('div'); 
+  div.setAttribute('class', 'card w-75'); 
+  div.innerHTML = getTamplate(c); 
+  cardGroup.appendChild(div); 
+  getButton(div)
+})
 }
 
 function getTamplate(card) {
-  const cardTemplate = `<div class="card w-75">
+  const cardTemplate = `
         <div class="card-body">
           <h5 class="card-title">${card.task}</h5>
           <p class="card-text">${card.description}</p>
-          <button class="delete_Task"><i class="fas fa-minus-circle"></i></button>
-          <button class="edit_Task"><i class="fas fa-edit"></i></button>
-        </div>
-      </div> ` 
+          <button class="delete_Task" data-id="${card.id}"><i class="fas fa-minus-circle fa-2x"></i></button>
+          <button class="edit_Task" data-edit="${card.isEdit}"><i class="fas fa-edit fa-2x"></i></button>
+        </div> ` 
 
   return cardTemplate
 }
 
-function submitForm(e) {
+function getButton(card) {
+  let btnsDel = document.querySelectorAll(".delete_Task"); 
+  btnsDel = Array.from(btnsDel); 
+  btnsDel.forEach( b => b.addEventListener('click', deleteCard))
+}
 
-  if(!descriptionInp.value || !taskInput.value){
-    return false
-  } else {
-    e.preventDefault(); 
-    createCard(descriptionInp.value, taskInput.value); 
-    descriptionInp.value = ""; 
-    taskInput.value = ""; 
-  }
+// тут костыль, его поправить нужно
+
+function deleteCard(event) {
+ const b = event.target; 
+ if(b.hasAttribute("data-id")){
+  b.parentNode.parentNode.remove()
+ }else {
+  b.parentNode.parentNode.parentNode.remove()
+ }
+}
+
+function editCard() {
 
 }
 
-renderCard(); 
+
+
+renderCards(); 
 
 // Добавление новых тасков
+// // <div class="card w-75">
+// </a>
+// </a> .getAttribute('data-id')

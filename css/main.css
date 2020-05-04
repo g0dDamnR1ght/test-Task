@@ -5,6 +5,8 @@
 
 button{
     cursor: pointer; 
+    position: relative;
+    box-sizing: border-box;
     width: 60px; 
     height: 40px;
     border-radius: 20px; 
@@ -12,6 +14,10 @@ button{
     background-color: rgb(106, 252, 8); 
     transition: .5s; 
 }
+    
+/*i{
+}*/
+
 .btn{
     justify-content: center;
 }
