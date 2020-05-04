@@ -24,9 +24,7 @@ let cardList = [
     id: Math.random(), 
     isEdit: false
   },
-    ]; 
-
-
+]; 
 
 
 addCard.addEventListener('click', submitForm); 
@@ -55,7 +53,7 @@ function createCard (description, task) {
   console.log(cardList)
 
   let div = document.createElement('div'); 
-  div.setAttribute('class', 'card w-75'); 
+  div.setAttribute('class', 'col mb-4'); 
   div.innerHTML = getTamplate(card); 
   cardGroup.appendChild(div)
   getButton(div)
@@ -64,7 +62,7 @@ function createCard (description, task) {
 function renderCards() {
  cardList.map( c => {
   let div = document.createElement('div'); 
-  div.setAttribute('class', 'card w-75'); 
+  div.setAttribute('class', 'col mb-4'); 
   div.innerHTML = getTamplate(c); 
   cardGroup.appendChild(div); 
   getButton(div)
@@ -73,12 +71,14 @@ function renderCards() {
 
 function getTamplate(card) {
   const cardTemplate = `
+      <div class="card">
         <div class="card-body">
           <h5 class="card-title">${card.task}</h5>
           <p class="card-text">${card.description}</p>
           <button class="delete_Task" data-id="${card.id}"><i class="fas fa-minus-circle fa-2x"></i></button>
           <button class="edit_Task" data-edit="${card.isEdit}"><i class="fas fa-edit fa-2x"></i></button>
-        </div> ` 
+        </div>
+      </div> ` 
 
   return cardTemplate
 }
@@ -86,6 +86,7 @@ function getTamplate(card) {
 function getButton(card) {
   let btnsDel = document.querySelectorAll(".delete_Task"); 
   btnsDel = Array.from(btnsDel); 
+
   btnsDel.forEach( b => b.addEventListener('click', deleteCard))
 }
 
@@ -94,8 +95,12 @@ function getButton(card) {
 function deleteCard(event) {
  const b = event.target; 
  if(b.hasAttribute("data-id")){
+  let id = b.parentNode.parentNode.dataset; 
+   cardList = cardList.filter(c => c.id !== +id.id)
   b.parentNode.parentNode.remove()
  }else {
+   let id = b.parentNode.dataset; 
+   cardList = cardList.filter(c => c.id !== +id.id)
   b.parentNode.parentNode.parentNode.remove()
  }
 }
@@ -105,10 +110,4 @@ function editCard() {
 }
 
 
-
 renderCards(); 
-
-// Добавление новых тасков
-// // <div class="card w-75">
-// </a>
-// </a> .getAttribute('data-id')
