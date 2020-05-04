@@ -9,9 +9,9 @@ let inp = document.querySelectorAll('form input');
 let form = document.querySelector('form');
 
 
-
-
 let taskList = [];
+
+
 function addTask(description, name) {
     // console.log(description,name)
     let task = {
@@ -89,21 +89,11 @@ for(let i=0; i < btnDelete.length; i++ ){
 
  
 
-
-
 function deleteTask(key){
     taskList = taskList.filter(task => task.id !== Number(key)); 
     let list = document.querySelector(`[data-key='${key}`); 
     list.remove();    
 }
-
-
-
-
-
-
-
-
 
 
 
