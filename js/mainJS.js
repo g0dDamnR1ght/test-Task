@@ -3,7 +3,7 @@ const descriptionInp = document.querySelector('.inp_description');
 const taskInput = document.querySelector('.inp_text'); 
 const addCard =  document.querySelector('.card_add');
 const cardGroup = document.querySelector('.card-deck'); 
- 
+
 let cardList = [
   {
     description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.`,
@@ -25,39 +25,35 @@ let cardList = [
   },
 ]; 
 
+
+
 // ===========localStorage function============
 const toLS = (item, key) => localStorage.setItem(key, JSON.stringify(item)); 
 
-// ============================================
+const getData = () => {
+  let get = localStorage.getItem("arr"); 
+  let data = JSON.parse(get)
+  cardList = data
 
-addCard.addEventListener('click', submitForm); 
-
-function submitForm(e) {
-
-  if(!descriptionInp.value || !taskInput.value){
-    e.preventDefault()
-    return false
-  } else {
-    e.preventDefault(); 
-    createCard(descriptionInp.value, taskInput.value); 
-    descriptionInp.value = ""; 
-    taskInput.value = ""; 
-    // toLS('arr', cardList)
+   if(cardList === null) {
+    cardList = []; 
   }
 }
 
-function createCard (description, task) {
-  let card = {
-    description, 
-    task, 
-    id: Math.random(), 
-    isEdit: false
+// ============================================
+
+function submitForm(e) {
+e.preventDefault()
+  if(!descriptionInp.value || !taskInput.value){
+    return false
+  } else {
+    createCard(descriptionInp.value, taskInput.value); 
+    descriptionInp.value = ""; 
+    taskInput.value = ""; 
   }
+}
 
-  cardList.push(card); 
-  console.log(cardList)
-  toLS(cardList, "arr" )
-
+function createElem(card){
   let div = document.createElement('div'); 
   div.setAttribute('class', 'col-3 mb-4 main'); 
   div.innerHTML = getTamplate(card); 
@@ -66,48 +62,36 @@ function createCard (description, task) {
   getEditButton(div)
 }
 
-function renderCards() {
-  let get = localStorage.getItem("arr"); 
-  let data = JSON.parse(get)
+function createCard (description, task) {
+  let card = {
+    description, 
+    task, 
+    id: Math.random(), 
+    isEdit: false
+  } 
 
-  cardList = data
-  
-if(!data || data === null){
-   emptyTemplate() 
-}else {
-  data.map( c => {
-  let div = document.createElement('div'); 
-  div.setAttribute('class', 'col-3 mb-4  main'); 
-  div.innerHTML = getTamplate(c); 
-  cardGroup.appendChild(div); 
-  getButton(div)
- getEditButton(div)
-    })
-  }
+  cardList.push(card); 
+  console.log(cardList); 
+  toLS(cardList, "arr" )
+  createElem(card)
+}
+
+function renderCards() {
+  getData(); 
+  cardList.map( c => createElem(c) )
 }
 
 function getTamplate(card) {
   const cardTemplate = `
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" data-cardID=${card.id}>
           <h5 class="card-title" id="card-title">${card.task}</h5>
-          <p class="card-text" id="card-text">${card.description}</p>
+          <p class="card-description" id="card-text">${card.description}</p>
           <button class="delete_Task" data-id="${card.id}"><i class="fas fa-minus-circle fa-2x"></i></button>
           <button class="edit_Task" data-edit="${card.isEdit}"> <i class="fas fa-edit fa-2x"></i></button>
         </div>
       </div> ` 
 
-  return cardTemplate
-}
-
-function emptyTemplate() {
-  const cardTemplate = `
-         <div class="card">
-          <div class="card-body">
-            <h3 class="card-title" id="card-title">У Вас еще нет дел!</h3>
-          </div>
-        </div> 
-  `
   return cardTemplate
 }
 
@@ -127,49 +111,81 @@ function getEditButton(card) {
 function deleteCard(event) {
  const b = event.target; 
  if(b.hasAttribute("data-id")){
+
   let id = b.closest('.delete_Task').dataset; 
-   cardList = cardList.filter(c => c.id !== +id.id)
+  cardList = cardList.filter(c => c.id !== +id.id)
   b.closest('.main').remove()
   toLS(cardList, "arr")
  }else {
    let id = b.parentNode.dataset; 
    cardList = cardList.filter(c => c.id !== +id.id)
-  b.closest('.main').remove()
-  toLS(cardList, "arr")
+    b.closest('.main').remove()
+    toLS(cardList, "arr")
  }
  
 }
 
-// поставить дизєйбл кнопке
-
-function changeHandler(event){
+  function changeHandler(event){
 let closest = event.target.closest('.card-body');
 let cardTitle = closest.querySelector('.card-title'); 
-let cardDescription = closest.querySelector('.card-text');
+let cardDescription = closest.querySelector('.card-description');
+const attr = closest.getAttribute("data-cardID"); 
+const classTask = 'taskInp'; 
+const classDescription = 'taskDscr';
 
+  creareNewInput(event, closest, cardTitle, classTask); 
+  creareNewInput(event, closest, cardDescription, classDescription); 
 
-  changeTask(event, closest, cardTitle); 
-  changeTask(event, closest, cardDescription)
-  
+const inputTask = document.querySelector('.taskInp'); 
+const inputDescription = document.querySelector('.taskDscr'); 
+let btnEdit = closest.querySelector('.edit_Task'); 
+
+inputTask.addEventListener('change', () => {
+      cardTitle.innerHTML = inputTask.value; 
+      changeCardTask(attr, inputTask.value) 
+      inputTask.remove(); 
+      btnEdit.removeAttribute('disabled')
+  }, [{once: true}]) 
+
+inputDescription.addEventListener('change', () => {
+      cardDescription.innerHTML = inputDescription.value; 
+      changeCardTask(attr, inputTask.value, inputDescription.value); 
+      inputDescription.remove(); 
+      btnEdit.removeAttribute('disabled')
+  }, [{once: true}]) 
+
+changeCardTask(attr, inputTask.value, inputDescription.value); 
+
 }
 
-function changeTask(event, closest, title){
+// переделать изменение текущего инпута 
+
+function creareNewInput(event, closest, title, className){
   let txt = title.childNodes[0].nodeValue;
-  let btnEdit = closest.querySelector('.edit_Task'); 
+  let btnEdit = closest.querySelector('.edit_Task');
   let input = document.createElement('input'); 
   input.setAttribute('type', 'text');
-  input.setAttribute('class', 'input'); 
+  input.setAttribute('class', `${className}`); 
   input.setAttribute('value', `${txt}`);
   btnEdit.setAttribute('disabled', 'disabled')
   closest.appendChild(input)
 
   input.addEventListener('input', () => title.innerHTML = input.value)
   input.addEventListener('focus', () => input.value = "")
-  input.addEventListener('change', () => {
-      title.innerHTML = input.value
-      input.remove(); 
-      btnEdit.removeAttribute('disabled')
-  }) 
 }
 
+function changeCardTask(id, task, description) {
+  needCard = cardList.find(c => c.id === +id)
+  needCard.task = task
+  needCard.description = description
+
+  console.log(needCard.task)
+  console.log(needCard.description)
+  toLS(cardList, "arr")
+  return cardList
+}
+
+addCard.addEventListener('click', submitForm); 
+
 renderCards(); 
+console.log(cardList)
